@@ -163,7 +163,7 @@ footer{background:var(--dark);color:#b9aca4;padding:36px 0;font-size:13.5px;text
   <div class="logo">WebSiteLink<span>Studio</span></div>
   <div style="display:flex;align-items:center;gap:12px">
     <span class="badge-test">Stripe Test Mode</span>
-    <span class="loc">Cois Croinn, Dundalk · Open today 10:00–19:00</span>
+    <span class="loc">Carrickmacross · Open today 10:00–19:00</span>
   </div>
 </div></header>
 
@@ -191,7 +191,7 @@ footer{background:var(--dark);color:#b9aca4;padding:36px 0;font-size:13.5px;text
 <div class="modal-veil" id="veil"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
 
-<footer><div class="wrap">Booking WebSiteLinkStudio · Cois Croinn, Dundalk, Co. Louth · Demo front-end — live payments & messaging require the backend integration (Stripe keys, SMTP/SMS gateway).</div></footer>
+<footer><div class="wrap">Booking WebSiteLinkStudio · Carrickmacross, Co. Louth · Demo front-end — live payments & messaging require the backend integration (Stripe keys, SMTP/SMS gateway).</div></footer>
 
 <script>
 /* ================= SERVICE MENU (WebSiteLinkStudio, Dundalk) ================= */
@@ -399,7 +399,7 @@ function renderStep(){
       Your appointment is confirmed:<br>
       • ${basket.map(b=>b.qty+'× '+b.item.name).join('<br>• ')}<br>
       • With ${STAFF.find(s=>s.id===sel.staff).name} · ${when}<br>
-      • WebSiteLinkStudio, Cois Croinn, Dundalk<br><br>
+      • WebSiteLinkStudio, carrickmacross<br><br>
       Paid now: <b>€${paid}</b> · Balance at studio: <b>€${price-paid}</b><br>
       Booking ref: <b>#${apptId}</b><br>
       Free cancellation up to 24h before your appointment.<br><br>
@@ -409,7 +409,7 @@ function renderStep(){
     <div class="confirm-id">Booking confirmed</div>
     <div class="confirm-sub">Ref <b>#${apptId}</b> · <span class="pill green">CONFIRMED</span> <span class="pill amber">€${paid} ${sel.pay==='deposit'?'DEPOSIT':'PAID'}</span></div>
     <div class="sum-row"><span>When</span><span>${when}</span></div>
-    <div class="sum-row"><span>Where</span><span>WebSiteLinkStudio, Cois Croinn, Dundalk</span></div>
+    <div class="sum-row"><span>Where</span><span>WebSiteLinkStudio, carrickmacross</span></div>
     <div class="sum-row"><span>Amount paid</span><span>€${paid} (Stripe)</span></div>
     <div class="sum-row"><span>Balance at studio</span><span>€${price-paid}</span></div>
     <div class="sum-row"><span>Reminders</span><span>24h & 2h before, by SMS + email</span></div>
