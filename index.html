@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking WebSiteLinkStudio — Dundalk | Online Booking</title>
+<style>
+:root{
+  --ink:#1f1c1a; --muted:#7d726c; --line:#ece5de; --bg:#ffffff; --soft:#faf7f4;
+  --accent:#b3795e; --accent-d:#96614a; --dark:#231d1a; --green:#2e7d4f; --amber:#b7791f;
+  --radius:14px; --shadow:0 10px 34px -18px rgba(31,28,26,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--soft);line-height:1.55}
+h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+button{font-family:inherit;cursor:pointer}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.badge-test{display:inline-block;background:#fff3e0;color:var(--amber);border:1px solid #f0d9ae;font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:99px;text-transform:uppercase}
+
+/* HEADER */
+header.top{background:var(--dark);color:#fff}
+.top-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:Georgia,serif;font-size:21px;font-weight:700}
+.logo span{color:var(--accent)}
+.top .loc{font-size:13px;color:#c9bcb4}
+.salon-hero{background:linear-gradient(120deg,#2a211d 0%,#4a352b 60%,#6b4a38 100%);color:#fff;padding:44px 0}
+.salon-hero h1{font-size:clamp(28px,4vw,42px)}
+.salon-hero p{color:#e3d5cc;margin-top:8px;max-width:560px}
+.rating{margin-top:14px;font-size:14px;color:#f0e4da}
+.rating b{color:#ffce7a}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 360px;gap:28px;padding:36px 0 90px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* CATEGORY ACCORDION */
+.cat{border:1px solid var(--line);border-radius:var(--radius);background:#fff;margin-bottom:14px;overflow:hidden}
+.cat-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none}
+.cat-head:hover{background:#fcf9f6}
+.cat-ico{width:42px;height:42px;border-radius:12px;background:#f6e9df;display:flex;align-items:center;justify-content:center;font-size:20px}
+.cat-head h3{font-size:17px;font-family:inherit;font-weight:650}
+.cat-head small{color:var(--muted);display:block;font-size:12.5px}
+.cat-arrow{margin-left:auto;color:var(--muted);transition:.25s}
+.cat.open .cat-arrow{transform:rotate(180deg)}
+.cat-body{display:none;border-top:1px solid var(--line)}
+.cat.open .cat-body{display:block}
+.sub{padding:16px 20px 6px}
+.sub h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.svc{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 20px;border-top:1px dashed var(--line)}
+.svc:first-of-type{border-top:none}
+.svc b{font-size:15px;display:block}
+.svc small{color:var(--muted);font-size:12.5px}
+.svc-price{text-align:right;white-space:nowrap}
+.svc-price b{font-size:15px}
+.svc-price small{display:block}
+.add-btn{margin-top:6px;border:1.5px solid var(--accent);color:var(--accent);background:#fff;border-radius:99px;padding:6px 18px;font-size:12.5px;font-weight:650;transition:.2s}
+.add-btn:hover{background:var(--accent);color:#fff}
+.qty{display:inline-flex;align-items:center;gap:12px;margin-top:6px}
+.qty button{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--accent);background:#fff;color:var(--accent);font-size:15px;line-height:1}
+.qty b{min-width:14px;text-align:center}
+
+/* BASKET PANEL */
+.panel{position:sticky;top:20px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+@media(max-width:900px){.panel{position:fixed;left:0;right:0;bottom:0;top:auto;border-radius:18px 18px 0 0;z-index:60;box-shadow:0 -8px 30px -12px rgba(0,0,0,.3)}}
+.panel-head{padding:16px 20px;border-bottom:1px solid var(--line);font-weight:650;font-size:15px}
+.panel-body{padding:18px 20px}
+.basket-item{display:flex;justify-content:space-between;font-size:14px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.basket-item button{background:none;border:none;color:var(--muted);font-size:16px}
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:22px 0}
+.total-row{display:flex;justify-content:space-between;font-size:15px;padding:10px 0 2px}
+.deposit-note{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:10px;padding:10px 12px;margin-top:10px}
+.panel .cta{display:block;width:calc(100% - 40px);margin:6px 20px 20px;background:var(--accent);color:#fff;border:none;border-radius:99px;padding:14px;font-size:15px;font-weight:700;transition:.2s}
+.panel .cta:hover{background:var(--accent-d)}
+.panel .cta:disabled{background:#d8cfc8;cursor:not-allowed}
+
+/* MODAL / BOOKING STEPS */
+.modal-veil{position:fixed;inset:0;background:rgba(28,22,19,.55);backdrop-filter:blur(3px);z-index:100;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 14px}
+.modal-veil.show{display:flex}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:560px;padding:28px;animation:pop .25s ease}
+@keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.modal h2{font-size:23px;margin-bottom:4px}
+.modal .sub2{color:var(--muted);font-size:14px;margin-bottom:20px}
+.back{background:none;border:none;color:var(--muted);font-size:13.5px;padding:0;margin-bottom:10px}
+.back:hover{color:var(--ink)}
+.steps{display:flex;gap:6px;margin:14px 0 22px}
+.steps i{flex:1;height:4px;border-radius:99px;background:var(--line)}
+.steps i.done{background:var(--accent)}
+
+.staff-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.staff-grid{grid-template-columns:1fr}}
+.pick{border:1.5px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:.15s;text-align:center;background:#fff}
+.pick:hover{border-color:var(--accent)}
+.pick.sel{border-color:var(--accent);background:#fdf4ec}
+.pick .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#d9a98c,#b3795e);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;font-weight:700}
+.pick b{display:block;font-size:15px}
+.pick small{color:var(--muted);font-size:12.5px}
+
+.day-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px}
+.day-chip{flex:0 0 auto;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;text-align:center;cursor:pointer;background:#fff;min-width:86px}
+.day-chip small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase}
+.day-chip b{font-size:14px}
+.day-chip.sel{border-color:var(--accent);background:#fdf4ec}
+.day-chip.full{opacity:.55}
+.day-chip .full-tag{font-size:10px;color:#b3402e;font-weight:700}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;max-height:260px;overflow-y:auto}
+.slot{border:1.5px solid var(--line);border-radius:10px;padding:11px 0;text-align:center;font-size:14px;cursor:pointer;background:#fff}
+.slot:hover{border-color:var(--accent)}
+.slot.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+.slot.taken{background:#f3efe b;background:#f3efe c}
+.slot.taken{background:#f3efec;color:#c4b9b1;cursor:not-allowed;text-decoration:line-through;border-color:var(--line)}
+.wait-box{margin-top:18px;border:1.5px dashed var(--accent);border-radius:14px;padding:18px;text-align:center;background:#fdf8f2}
+.btn{display:inline-block;border:none;border-radius:99px;padding:13px 26px;font-size:14.5px;font-weight:700;transition:.2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-d)}
+.btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.modal-foot{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:10px}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:650;margin-bottom:6px}
+.field input,.field select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14.5px;font-family:inherit}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.sum-row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.sum-row span:last-child{font-weight:600;text-align:right}
+.pay-opts{display:flex;gap:10px;margin:14px 0}
+.pay-opt{flex:1;border:1.5px solid var(--line);border-radius:12px;padding:12px;text-align:center;cursor:pointer;font-size:13.5px;font-weight:600}
+.pay-opt.sel{border-color:var(--accent);background:#fdf4ec}
+.card-box{border:15px;border:1.5px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.card-box .brand{float:right;color:var(--muted);font-weight:700;font-size:13px;letter-spacing:.04em}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* CONFIRMATION + EMAIL/SMS MOCKUPS */
+.success-check{width:64px;height:64px;border-radius:50%;background:#e7f4ec;color:var(--green);font-size:32px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.confirm-id{text-align:center;font-family:Georgia,serif;font-size:22px;margin-bottom:2px}
+.confirm-sub{text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:20px}
+.pill{display:inline-block;border-radius:99px;padding:3px 12px;font-size:12px;font-weight:700}
+.pill.green{background:#e7f4ec;color:var(--green)}
+.pill.amber{background:#fdf3e0;color:var(--amber)}
+.mockups{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+@media(max-width:560px){.mockups{grid-template-columns:1fr}}
+.mock-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.phone-mock{border:8px solid #26211e;border-radius:26px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+.phone-mock .sms{background:#f6f3f0;padding:14px;min-height:150px}
+.bubble{background:#fff;border-radius:14px;padding:10px 13px;font-size:12.5px;box-shadow:0 1px 3px rgba(0,0,0,.08);max-width:95%}
+.bubble small{color:var(--muted);display:block;margin-top:6px;font-size:10.5px}
+.mail-mock{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow)}
+.mail-mock .mail-head{background:#f6f3f0;padding:10px 14px;font-size:12px;color:var(--muted);border-bottom:1px solid var(--line)}
+.mail-mock .mail-body{padding:16px;font-size:12.5px}
+.mail-brand{font-family:Georgia,serif;font-size:16px;color:var(--accent);margin-bottom:8px}
+
+footer{background:var(--dark);color:#b9aca4;padding:36px 0;font-size:13.5px;text-align:center}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:99px;font-size:14px;z-index:200;box-shadow:var(--shadow);display:none}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap top-in">
+  <div class="logo">WebSiteLink<span>Studio</span></div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="badge-test">Stripe Test Mode</span>
+    <span class="loc">Cois Croinn, Dundalk · Open today 10:00–19:00</span>
+  </div>
+</div></header>
+
+<div class="salon-hero"><div class="wrap">
+  <h1>Booking WebSiteLinkStudio</h1>
+  <p>Skin, body, nails & lashes. Injectable aesthetics, advanced facials, LPG and RF body treatments, eyelash extensions and waxing — book online in seconds.</p>
+  <div class="rating">★★★★★ <b>4.9</b> · 320+ verified reviews on Fresha</div>
+</div></div>
+
+<main class="wrap layout">
+  <!-- SERVICE MENU -->
+  <section id="menu"></section>
+
+  <!-- BASKET -->
+  <aside>
+    <div class="panel">
+      <div class="panel-head">Your booking</div>
+      <div class="panel-body" id="basket-body"></div>
+      <button class="cta" id="cta" disabled onclick="openBooking()">Select a service</button>
+    </div>
+  </aside>
+</main>
+
+<!-- BOOKING MODAL -->
+<div class="modal-veil" id="veil"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<footer><div class="wrap">Booking WebSiteLinkStudio · Cois Croinn, Dundalk, Co. Louth · Demo front-end — live payments & messaging require the backend integration (Stripe keys, SMTP/SMS gateway).</div></footer>
+
+<script>
+/* ================= SERVICE MENU (WebSiteLinkStudio, Dundalk) ================= */
+const CATEGORIES=[
+ {id:'injectables',ico:'💉',name:'Injectable Aesthetics',desc:'Administered by certified aesthetic practitioner',subs:[
+   {name:'Dermal Fillers',items:[
+     {id:'f_lips',name:'Lip Enhancement (HA Filler)',dur:45,price:180},
+     {id:'f_cheeks',name:'Cheek & Midface Volume (HA)',dur:60,price:220},
+     {id:'f_naso',name:'Nasolabial Folds (HA)',dur:30,price:150}]},
+   {name:'Skin Boosters & Biostimulators',items:[
+     {id:'bio_face',name:'Injectable Biostimulator — Face',dur:45,price:190},
+     {id:'meso',name:'Mesotherapy (course per session)',dur:40,price:90},
+     {id:'lipo',name:'Lipolytic Injections (per area)',dur:30,price:110}]},
+   {name:'Thread Lifting',items:[
+     {id:'thread_mid',name:'Thread Lift — Midface',dur:60,price:250},
+     {id:'thread_brow',name:'Fox Eye / Brow Lift Threads',dur:45,price:190}]}]},
+ {id:'facials',ico:'✨',name:'Advanced Facials & Skin',desc:'Diamond & hydro microdermabrasion, RF, peels',subs:[
+   {name:'Signature Facials',items:[
+     {id:'hydroluxx',name:'HydroLuxx Facial',dur:60,price:85},
+     {id:'deep_clean',name:'Deep Cleansing Facial',dur:75,price:60},
+     {id:'lift_trio',name:'Face Lift Trio (Microcurrent + RF + Massage)',dur:90,price:70}]},
+   {name:'Technology Facials',items:[
+     {id:'diamond',name:'Diamond Microdermabrasion',dur:45,price:55},
+     {id:'hydro_derm',name:'Hydro Microdermabrasion',dur:50,price:65},
+     {id:'rf_lift',name:'RF Lifting — Face',dur:45,price:45},
+     {id:'microcurrent',name:'Microcurrent Facial',dur:40,price:45},
+     {id:'lpg_face',name:'LPG Face Massage (Stratosphera)',dur:30,price:40}]},
+   {name:'Clinical Peels',items:[
+     {id:'peel_light',name:'Chemical Peel — Superficial',dur:30,price:65},
+     {id:'peel_med',name:'Chemical Peel — Medium',dur:45,price:95},
+     {id:'carboxy',name:'Carboxytherapy — Face',dur:30,price:55},
+     {id:'microneedle',name:'Medical Microneedling / RF Microneedling',dur:60,price:120}]}]},
+ {id:'body',ico:'🌿',name:'Body Treatments',desc:'LPG, vacuum RF, cavitation — course of 5 available',subs:[
+   {name:'LPG & Massage',items:[
+     {id:'lpg_body',name:'LPG Massage — Body (per session)',dur:45,price:55},
+     {id:'lpg_course',name:'LPG Course of 5 Treatments',dur:45,price:275,note:'€55 each'}]},
+   {name:'RF & Cavitation',items:[
+     {id:'vac_rf',name:'Vacuum RF Massage (per session)',dur:40,price:50},
+     {id:'cavitation',name:'Cavitation — Body (per session)',dur:45,price:60},
+     {id:'rf_body',name:'RF Rejuvenation — Body',dur:40,price:55}]}]},
+ {id:'lashes',ico:'👁️',name:'Lashes & Brows',desc:'Extensions, volume sets, lash lift',subs:[
+   {name:'Eyelash Extensions',items:[
+     {id:'lash_classic',name:'Classic Eyelash Extensions',dur:90,price:50},
+     {id:'lash_volume',name:'Volume Lashes 3D / 4D / 5D / 6D',dur:120,price:65},
+     {id:'lash_infill',name:'Infill (2–3 weeks)',dur:60,price:35}]},
+   {name:'Lash & Brow Care',items:[
+     {id:'lash_lift',name:'Lash Lift & Tint',dur:45,price:45},
+     {id:'brow_lam',name:'Brow Lamination',dur:40,price:40},
+     {id:'brow_shape',name:'Brow Shape & Tint',dur:25,price:20}]}]},
+ {id:'nails',ico:'💅',name:'Nails',desc:'Gel manicure, spa pedicure, nail art',subs:[
+   {name:'Hands',items:[
+     {id:'man_gel',name:'Gel Manicure',dur:60,price:40},
+     {id:'man_spa',name:'Luxury Spa Manicure',dur:75,price:50},
+     {id:'hands_massage',name:'Hands Massage (add-on)',dur:15,price:15}]},
+   {name:'Feet',items:[
+     {id:'ped_spa',name:'Spa Pedicure',dur:60,price:45},
+     {id:'ped_med',name:'Medical Pedicure',dur:75,price:60}]}]},
+ {id:'waxing',ico:'🕯️',name:'Waxing',desc:'Face & body waxing, advanced wax',subs:[
+   {name:'Face',items:[
+     {id:'wax_brow',name:'Eyebrow Wax',dur:15,price:12},
+     {id:'wax_lip',name:'Lip or Chin Wax',dur:15,price:12},
+     {id:'wax_fullface',name:'Full Face Wax',dur:30,price:30}]},
+   {name:'Body',items:[
+     {id:'wax_halfleg',name:'Half Leg Wax',dur:30,price:25},
+     {id:'wax_fullleg',name:'Full Leg Wax',dur:45,price:40},
+     {id:'wax_under',name:'Underarm Wax',dur:15,price:15},
+     {id:'wax_back',name:'Back or Chest (Advanced Wax)',dur:40,price:45}]}]}
+];
+const STAFF=[
+ {id:'any',name:'Any available staff',tag:'Earliest available slot',ini:'★'},
+ {id:'staff1',name:'Staff 1',tag:'Senior aesthetician',ini:'1'},
+ {id:'staff2',name:'Staff 2',tag:'Facials & skin specialist',ini:'2'},
+ {id:'staff3',name:'Staff 3',tag:'Nails & waxing specialist',ini:'3'}];
+const DAYS=[];const DAYNAMES=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const now=new Date();
+for(let i=1;i<=14;i++){const d=new Date(now);d.setDate(now.getDate()+i);DAYS.push({d,label:DAYNAMES[d.getDay()]+', '+d.getDate()+' '+MON[d.getMonth()]});}
+
+/* Availability pseudo-engine: seeded deterministic */
+function seeded(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return Math.abs(h);}
+function slotsFor(staffId,dayIdx,durMin){
+  const out=[];const step=30;const open=10*60,close=19*60,lunchS=13*60,lunchE=14*60;
+  for(let t=open;t+durMin<=close;t+=step){
+    if(t<lunchE&&t+durMin>lunchS)continue;
+    const key=staffId+'|'+dayIdx+'|'+t;
+    const taken=seeded(key)%100<28; // 28% booked
+    out.push({t:taken?null:t});
+  }
+  const free=out.filter(s=>s.t!==null).map(s=>s.t);
+  return {all:out,free};
+}
+
+/* state */
+let basket=[]; // {item,qty}
+let step=0, sel={staff:null,day:null,time:null,customer:{},pay:'deposit'};
+const SVC=id=>CATEGORIES.flatMap(c=>c.subs.flatMap(s=>s.items)).find(i=>i.id===id);
+const fmt=t=>String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
+const basketTotals=()=>{const dur=basket.reduce((a,b)=>a+b.item.dur*b.qty,0);const price=basket.reduce((a,b)=>a+b.item.price*b.qty,0);return{dur,price};};
+
+/* ---------- MENU RENDER ---------- */
+function renderMenu(){
+  document.getElementById('menu').innerHTML=CATEGORIES.map(c=>`
+   <div class="cat open" id="cat-${c.id}">
+     <div class="cat-head" onclick="document.getElementById('cat-${c.id}').classList.toggle('open')">
+       <div class="cat-ico">${c.ico}</div>
+       <div><h3>${c.name}</h3><small>${c.desc}</small></div>
+       <div class="cat-arrow">▾</div>
+     </div>
+     <div class="cat-body">${c.subs.map(s=>`
+       <div class="sub"><h4>${s.name}</h4></div>
+       ${s.items.map(it=>{
+         const inB=basket.find(b=>b.item.id===it.id);
+         return `<div class="svc">
+           <div><b>${it.name}</b><small>${it.dur} min${it.note?' · '+it.note:''}</small></div>
+           <div class="svc-price"><b>€${it.price}</b>
+             ${inB?`<div class="qty"><button onclick="chgQty('${it.id}',-1)">−</button><b>${inB.qty}</b><button onclick="chgQty('${it.id}',1)">+</button></div>`
+                  :`<button class="add-btn" onclick="add('${it.id}')">Add</button>`}
+           </div></div>`;}).join('')}`).join('')}
+     </div>
+   </div>`).join('');
+  renderBasket();
+}
+function add(id){const it=SVC(id);const f=basket.find(b=>b.item.id===id);if(f)f.qty++;else basket.push({item:it,qty:1});renderMenu();toast(it.name+' added');}
+function chgQty(id,d){const f=basket.find(b=>b.item.id===id);f.qty+=d;if(f.qty<=0)basket=basket.filter(b=>b.item.id!==id);renderMenu();}
+function renderBasket(){
+  const el=document.getElementById('basket-body');const cta=document.getElementById('cta');
+  if(!basket.length){el.innerHTML='<div class="empty">No services selected yet.<br>Choose a treatment to get started.</div>';cta.disabled=true;cta.textContent='Select a service';return;}
+  const{dur,price}=basketTotals();const dep=Math.max(20,Math.round(price*0.3));
+  el.innerHTML=basket.map(b=>`<div class="basket-item"><span>${b.qty}× ${b.item.name}</span><span>€${b.item.price*b.qty} <button onclick="chgQty('${b.item.id}',-1)">✕</button></span></div>`).join('')
+   +`<div class="total-row"><span>Total · ${dur} min</span><b>€${price}</b></div>
+     <div class="deposit-note">💳 Pay <b>€${dep}</b> deposit now (30%, min €20) or pay in full. Balance due at the studio. Free cancellation up to 24h before — deposit refundable.</div>`;
+  cta.disabled=false;cta.textContent='Book '+basket.length+(basket.length>1?' services':' service')+' →';
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',2200);}
+
+/* ---------- BOOKING WIZARD ---------- */
+function openBooking(){step=1;sel={staff:null,day:null,time:null,customer:{},pay:'deposit'};document.getElementById('veil').classList.add('show');renderStep();}
+function closeModal(){document.getElementById('veil').classList.remove('show');}
+document.getElementById('veil').addEventListener('click',e=>{if(e.target.id==='veil')closeModal();});
+function dots(){return `<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${step>=i?'done':''}"></i>`).join('')}</div>`;}
+
+function renderStep(){
+  const m=document.getElementById('modal');const{dur,price}=basketTotals();
+  if(step===1){
+    m.innerHTML=`<button class="back" onclick="closeModal()">✕ Cancel</button><h2>Choose your professional</h2><div class="sub2">${basket.map(b=>b.qty+'× '+b.item.name).join(' · ')} — ${dur} min · €${price}</div>${dots()}
+    <div class="staff-grid">${STAFF.map(s=>`<div class="pick ${sel.staff===s.id?'sel':''}" onclick="selStaff('${s.id}')"><div class="avatar">${s.ini}</div><b>${s.name}</b><small>${s.tag}</small></div>`).join('')}</div>
+    <div class="modal-foot"><span></span><button class="btn btn-primary" ${sel.staff?'':'disabled'} onclick="step=2;renderStep()">Continue →</button></div>`;
+  }
+  else if(step===2){
+    const dayChips=DAYS.map((d,i)=>{const s=slotsFor(sel.staff,i,dur);const full=s.free.length===0;
+      return `<div class="day-chip ${sel.day===i?'sel':''} ${full?'full':''}" onclick="pickDay(${i})"><small>${d.label.split(',')[0]}</small><b>${d.label.split(',')[1]}</b>${full?'<div class="full-tag">FULL</div>':''}</div>`;}).join('');
+    let slotHtml='',waitHtml='';
+    if(sel.day!==null){const s=slotsFor(sel.staff,sel.day,dur);
+      slotHtml=s.free.length?`<div class="slots">${s.all.map(sl=>sl.t===null?`<div class="slot taken">—</div>`:`<div class="slot ${sel.time===sl.t?'sel':''}" onclick="selTime(${sl.t})">${fmt(sl.t)}</div>`).join('')}</div>`
+        :`<div class="empty">Fully booked for this day.</div>`;
+      waitHtml=`<div class="wait-box"><b>No suitable time?</b><p style="font-size:13.5px;color:var(--muted);margin:6px 0 12px">Join the waitlist — you'll be notified instantly by email & SMS when a slot opens on ${DAYS[sel.day].label}.</p><button class="btn btn-ghost" onclick="step=5;renderStep()">Join waitlist →</button></div>`;
+    }
+    m.innerHTML=`<button class="back" onclick="step=1;renderStep()">← Back</button><h2>Pick a date & time</h2><div class="sub2">${DAYS.length} days · availability in real time</div>${dots()}
+    <div class="day-row">${dayChips}</div>${slotHtml}${sel.day!==null?waitHtml:''}
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="step=1;renderStep()">← Back</button><button class="btn btn-primary" ${sel.time!==null?'':'disabled'} onclick="step=3;renderStep()">Continue →</button></div>`;
+  }
+  else if(step===3){
+    m.innerHTML=`<button class="back" onclick="step=2;renderStep()">← Back</button><h2>Your details</h2><div class="sub2">We'll send confirmation by email and SMS</div>${dots()}
+    <div class="field"><label>Full name</label><input id="f-name" value="${sel.customer.name||''}" placeholder="e.g. Anna Kovalenko"></div>
+    <div class="two">
+      <div class="field"><label>Email</label><input id="f-email" type="email" value="${sel.customer.email||''}" placeholder="you@email.com"></div>
+      <div class="field"><label>Mobile phone</label><input id="f-phone" type="tel" value="${sel.customer.phone||''}" placeholder="+353 87 000 0000"></div>
+    </div>
+    <label style="font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center"><input type="checkbox" checked> Send me booking updates by email & SMS</label>
+    <div class="modal-foot"><span></span><button class="btn btn-primary" onclick="saveDetails()">Review booking →</button></div>`;
+  }
+  else if(step===4){
+    const dep=Math.max(20,Math.round(price*0.3));
+    m.innerHTML=`<button class="back" onclick="step=3;renderStep()">← Back</button><h2>Review & pay</h2><div class="sub2">Deposit secures your appointment instantly</div>${dots()}
+    <div class="sum-row"><span>Services</span><span>${basket.map(b=>b.qty+'× '+b.item.name).join('<br>')}</span></div>
+    <div class="sum-row"><span>Professional</span><span>${STAFF.find(s=>s.id===sel.staff).name}</span></div>
+    <div class="sum-row"><span>When</span><span>${DAYS[sel.day].label} · ${fmt(sel.time)} (${dur} min)</span></div>
+    <div class="sum-row"><span>Total</span><span>€${price}</span></div>
+    <div class="pay-opts">
+      <div class="pay-opt ${sel.pay==='deposit'?'sel':''}" onclick="sel.pay='deposit';renderStep()">Pay deposit<br><b>€${dep}</b></div>
+      <div class="pay-opt ${sel.pay==='full'?'sel':''}" onclick="sel.pay='full';renderStep()">Pay in full<br><b>€${price}</b></div>
+    </div>
+    <div class="card-box"><span class="brand">VISA · STRIPE TEST</span>
+      <div class="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" value="4242 4242 4242 4242"></div>
+      <div class="two"><div class="field"><label>Expiry</label><input placeholder="12 / 28" value="12 / 28"></div><div class="field"><label>CVC</label><input placeholder="123" value="123"></div></div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px">🔒 Encrypted by Stripe. This salon never sees or stores your card details. Demo mode — no real charge.</div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="step=3;renderStep()">← Back</button><button class="btn btn-primary" id="paybtn" onclick="doPay()">Pay €${sel.pay==='deposit'?dep:price} securely →</button></div>`;
+  }
+  else if(step===5){ // WAITLIST
+    m.innerHTML=`<button class="back" onclick="step=2;renderStep()">← Back</button><h2>Join the waitlist</h2><div class="sub2">You'll be first to know when a slot opens</div>${dots()}
+    <div class="sum-row"><span>Services</span><span>${basket.map(b=>b.item.name).join(', ')}</span></div>
+    <div class="sum-row"><span>Preferred day</span><span>${sel.day!==null?DAYS[sel.day].label:'Any day'}</span></div>
+    <div class="sum-row"><span>Professional</span><span>${STAFF.find(s=>s.id===sel.staff).name}</span></div>
+    <div class="field" style="margin-top:14px"><label>Email</label><input id="w-email" value="${sel.customer.email||''}" placeholder="you@email.com"></div>
+    <div class="field"><label>Mobile phone</label><input id="w-phone" value="${sel.customer.phone||''}" placeholder="+353 87 000 0000"></div>
+    <div class="modal-foot"><span></span><button class="btn btn-primary" onclick="joinWaitlist()">Notify me →</button></div>`;
+  }
+  else if(step===6){ // CONFIRMATION
+    const dep=Math.max(20,Math.round(price*0.3));const paid=sel.pay==='deposit'?dep:price;
+    const apptId='KM-'+Math.floor(1000+Math.random()*9000);
+    const when=DAYS[sel.day].label+' at '+fmt(sel.time);
+    const emailHtml=`<div class="mail-brand">Booking WebSiteLinkStudio</div>
+      <b>Booking confirmed ✔</b><br><br>
+      Hi ${sel.customer.name},<br><br>
+      Your appointment is confirmed:<br>
+      • ${basket.map(b=>b.qty+'× '+b.item.name).join('<br>• ')}<br>
+      • With ${STAFF.find(s=>s.id===sel.staff).name} · ${when}<br>
+      • WebSiteLinkStudio, Cois Croinn, Dundalk<br><br>
+      Paid now: <b>€${paid}</b> · Balance at studio: <b>€${price-paid}</b><br>
+      Booking ref: <b>#${apptId}</b><br>
+      Free cancellation up to 24h before your appointment.<br><br>
+      See you soon,<br>WebSiteLinkStudio Team`;
+    const smsText=`WebSiteLinkStudio: Confirmed! ${basket[0].item.name} with ${STAFF.find(s=>s.id===sel.staff).name}, ${when}. Paid €${paid}, balance €${price-paid}. Ref #${apptId}. Reply C to cancel. Add to calendar: websitelinkstudio.ie/c/${apptId}`;
+    m.innerHTML=`<div class="success-check">✓</div>
+    <div class="confirm-id">Booking confirmed</div>
+    <div class="confirm-sub">Ref <b>#${apptId}</b> · <span class="pill green">CONFIRMED</span> <span class="pill amber">€${paid} ${sel.pay==='deposit'?'DEPOSIT':'PAID'}</span></div>
+    <div class="sum-row"><span>When</span><span>${when}</span></div>
+    <div class="sum-row"><span>Where</span><span>WebSiteLinkStudio, Cois Croinn, Dundalk</span></div>
+    <div class="sum-row"><span>Amount paid</span><span>€${paid} (Stripe)</span></div>
+    <div class="sum-row"><span>Balance at studio</span><span>€${price-paid}</span></div>
+    <div class="sum-row"><span>Reminders</span><span>24h & 2h before, by SMS + email</span></div>
+    <div class="mockups">
+      <div><div class="mock-label"><span>📧 Email preview</span><span class="badge-test">Demo</span></div>
+        <div class="mail-mock"><div class="mail-head">To: ${sel.customer.email} · Subject: Booking confirmed — WebSiteLinkStudio</div><div class="mail-body">${emailHtml}</div></div></div>
+      <div><div class="mock-label"><span>📱 SMS preview</span><span class="badge-test">Demo</span></div>
+        <div class="phone-mock"><div class="sms"><div class="bubble">${smsText}<small>Delivered · just now</small></div></div></div></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="toast('Calendar file (.ics) would download here')">＋ Add to calendar</button><button class="btn btn-ghost" onclick="toast('Reschedule link sent to '+sel.customer.email)">Reschedule</button><button class="btn btn-primary" onclick="closeModal();basket=[];renderMenu()">Done</button></div>`;
+  }
+  else if(step===7){ // WAITLIST JOINED
+    m.innerHTML=`<div class="success-check">⏳</div>
+    <div class="confirm-id">You're on the waitlist</div>
+    <div class="confirm-sub">We'll message you the moment a slot opens</div>
+    <div class="sum-row"><span>Services</span><span>${basket.map(b=>b.item.name).join(', ')}</span></div>
+    <div class="sum-row"><span>Preferred</span><span>${sel.day!==null?DAYS[sel.day].label:'Any day'} · ${STAFF.find(s=>s.id===sel.staff).name}</span></div>
+    <div class="sum-row"><span>Notifications</span><span>Email + SMS, secure link valid 30 min</span></div>
+    <div class="modal-foot"><span></span><button class="btn btn-primary" onclick="closeModal()">Done</button></div>`;
+    toast('Waitlist confirmation sent by email & SMS (demo)');
+  }
+}
+function selStaff(id){sel.staff=id;sel.day=null;sel.time=null;renderStep();}
+function pickDay(i){sel.day=i;sel.time=null;renderStep();}
+function selTime(t){sel.time=t;renderStep();}
+function saveDetails(){const n=document.getElementById('f-name').value.trim(),e=document.getElementById('f-email').value.trim(),p=document.getElementById('f-phone').value.trim();
+  if(!n||!e||!p){toast('Please fill in all fields');return;}
+  sel.customer={name:n,email:e,phone:p};step=4;renderStep();}
+function doPay(){const b=document.getElementById('paybtn');b.disabled=true;b.innerHTML='<span class="spin"></span>Processing with Stripe…';
+  setTimeout(()=>{b.innerHTML='<span class="spin"></span>Confirming payment…';setTimeout(()=>{step=6;renderStep();toast('Payment confirmed · receipt sent to '+sel.customer.email);},1400);},1600);}
+function joinWaitlist(){const e=document.getElementById('w-email').value.trim(),p=document.getElementById('w-phone').value.trim();
+  if(!e||!p){toast('Email and phone required for notifications');return;}
+  sel.customer.email=e;sel.customer.phone=p;step=7;renderStep();}
+
+renderMenu();
+</script>
+</body>
+</html>
